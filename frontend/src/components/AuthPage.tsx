@@ -67,29 +67,32 @@ export function AuthPage({ onAuthenticated }: AuthPageProps) {
         </div>
         <div className="story-note">
           <div className="story-note__top">
-            <span className="live-dot" /> твой ритм, твои правила
+            <span className="live-dot" /> КАК РАБОТАЕТ PACT
           </div>
           <div className="story-streak">
-            <span className="streak-number">07</span>
+            <span className="streak-number">
+              <Check size={21} />
+            </span>
             <span>
-              дней подряд
-              <br />
-              держу слово
+              Один шаг за раз.
+              <br />В твоём собственном ритме.
             </span>
             <MoveRight size={20} />
           </div>
           <div className="story-week" aria-hidden="true">
-            {["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"].map((day, index) => (
-              <span key={day} className={index < 5 ? "is-filled" : ""}>
-                {day}
-                <i>{index < 5 ? <Check size={12} /> : ""}</i>
-              </span>
-            ))}
+            {["Запиши обещание", "Отметь выполнение", "Продолжай"].map(
+              (step, index) => (
+                <span key={step}>
+                  <i>0{index + 1}</i>
+                  {step}
+                </span>
+              ),
+            )}
           </div>
         </div>
         <div className="auth-story__footer">
           <span>Личное обещание — личная сила.</span>
-          <span>01 / 03</span>
+          <span>PERSONAL SPACE</span>
         </div>
         <span className="story-orbit story-orbit--one" />
         <span className="story-orbit story-orbit--two" />

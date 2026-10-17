@@ -33,9 +33,10 @@ export function OverviewPage({
   const todayCount = checkins.filter(
     (checkin) => checkin.date.slice(0, 10) === localDate(),
   ).length;
-  const strongestStreak = pacts.reduce(
-    (best, pact) => Math.max(best, pact.current_streak),
-    0,
+  const recordPact = pacts.reduce<Pact | null>(
+    (best, pact) =>
+      !best || pact.longest_streak > best.longest_streak ? pact : best,
+    null,
   );
   const today = new Intl.DateTimeFormat("ru-RU", {
     weekday: "long",
@@ -115,12 +116,14 @@ export function OverviewPage({
         </article>
         <article className="stat-tile stat-tile--paper">
           <div className="stat-tile__top">
-            <span>Лучшая серия</span>
+            <span>Личный рекорд</span>
             <Flame size={17} />
           </div>
           <strong>
-            {strongestStreak}
-            <small> дн.</small>
+            {recordPact?.longest_streak ?? 0}
+            <small>
+              {recordPact?.frequency === "weekly" ? " нед." : " дн."}
+            </small>
           </strong>
           <div className="stat-tile__foot">
             <Trophy size={13} /> твой личный рекорд

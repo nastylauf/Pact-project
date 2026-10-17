@@ -112,7 +112,8 @@ export function PactsPage({
           <div>
             <span>Личный рекорд</span>
             <strong>
-              {selected.longest_streak} <small>дн.</small>
+              {selected.longest_streak}{" "}
+              <small>{selected.frequency === "daily" ? "дн." : "нед."}</small>
             </strong>
           </div>
           <div>

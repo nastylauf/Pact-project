@@ -350,6 +350,70 @@ strong {
   border-bottom: 1px solid #e7e8e1;
   background: rgba(250, 250, 246, 0.86);
 }
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.mobile-profile-wrap {
+  display: none;
+  position: relative;
+}
+.mobile-profile-button {
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e2e5dc;
+  border-radius: 50%;
+  background: #fffefa;
+  cursor: pointer;
+}
+.mobile-profile-button .avatar {
+  width: 27px;
+  height: 27px;
+  font-size: 11px;
+}
+.mobile-profile-menu {
+  width: 210px;
+  padding: 11px;
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  z-index: 12;
+  display: grid;
+  gap: 5px;
+  border: 1px solid #e2e5dc;
+  border-radius: 6px;
+  background: #fffefa;
+  box-shadow: var(--shadow);
+  animation: menu-in 0.18s ease both;
+}
+.mobile-profile-menu strong {
+  color: #344137;
+  font-size: 11px;
+}
+.mobile-profile-menu > span {
+  overflow: hidden;
+  color: #858c81;
+  font-size: 9px;
+  text-overflow: ellipsis;
+}
+.mobile-profile-menu button {
+  min-height: 33px;
+  margin-top: 5px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-top: 1px solid #ecece6;
+  color: #965644;
+  background: transparent;
+  font-size: 10px;
+  cursor: pointer;
+}
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -1733,28 +1797,26 @@ strong {
 .story-week {
   margin-top: 17px;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 9px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 11px;
 }
 .story-week > span {
   color: #9ca99a;
   font-size: 8px;
-  text-align: center;
+  line-height: 1.35;
+  text-align: left;
 }
 .story-week i {
-  height: 26px;
-  margin-top: 5px;
+  width: 21px;
+  height: 21px;
+  margin: 0 0 6px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(235, 241, 222, 0.14);
-  border-radius: 5px;
-  color: #526742;
-  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(215, 230, 139, 0.35);
+  border-radius: 6px 6px 6px 2px;
+  color: var(--lime);
+  font-size: 8px;
   font-style: normal;
-}
-.story-week .is-filled i {
-  border-color: var(--lime);
-  background: var(--lime);
 }
 .auth-story__footer {
   display: flex;
@@ -2053,6 +2115,9 @@ strong {
   }
   .button--top svg {
     width: 15px;
+  }
+  .mobile-profile-wrap {
+    display: block;
   }
   .page-content {
     padding: 29px 17px 38px;

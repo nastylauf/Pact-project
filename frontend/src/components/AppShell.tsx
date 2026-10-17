@@ -135,14 +135,38 @@ export function AppShell({ user, pacts, onSignOut }: AppShellProps) {
             <span className="breadcrumb-slash">/</span>
             <strong>{pageTitle}</strong>
           </div>
-          <NavLink
-            to="/pacts"
-            state={{ openCreate: true }}
-            className="button button--primary button--top"
-          >
-            <Plus size={17} strokeWidth={2.3} />
-            <span>Новое обещание</span>
-          </NavLink>
+          <div className="topbar-actions">
+            <NavLink
+              to="/pacts"
+              state={{ openCreate: true }}
+              className="button button--primary button--top"
+            >
+              <Plus size={17} strokeWidth={2.3} />
+              <span>Новое обещание</span>
+            </NavLink>
+            <div className="mobile-profile-wrap">
+              <button
+                type="button"
+                className="mobile-profile-button"
+                onClick={() => setProfileOpen(!profileOpen)}
+                aria-label="Открыть аккаунт"
+                aria-expanded={profileOpen}
+              >
+                <span className="avatar">
+                  {firstName.slice(0, 1).toLocaleUpperCase("ru-RU")}
+                </span>
+              </button>
+              {profileOpen && (
+                <div className="mobile-profile-menu">
+                  <strong>{user?.name || "Аккаунт"}</strong>
+                  <span>{user?.email}</span>
+                  <button type="button" onClick={onSignOut}>
+                    <LogOut size={15} /> Выйти из аккаунта
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </header>
         <main className="page-content">
           <Outlet />
