@@ -53,15 +53,23 @@ export class ApiError extends Error {
   }
 }
 
-const apiBase = (
-  import.meta.env.VITE_API_URL ?? "http://localhost:8080"
-).replace(/\/$/, "");
+const configuredApi = import.meta.env.VITE_API_URL?.trim();
+const apiBase = configuredApi
+  ? configuredApi.replace(/\/$/, "")
+  : import.meta.env.PROD
+    ? null
+    : "http://localhost:8080";
 
 async function request<T>(
   path: string,
   token?: string,
   init?: RequestInit,
 ): Promise<T> {
+  if (!apiBase) {
+    throw new Error(
+      "Для входа нужен публичный backend. Сейчас доступен только просмотр сайта.",
+    );
+  }
   let response: Response;
   try {
     response = await fetch(`${apiBase}${path}`, {

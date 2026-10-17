@@ -36,3 +36,9 @@ npm run build
 API-контракты, миграции и подробная конфигурация backend находятся в [backend/README.md](backend/README.md) и [backend/docs/openapi.yaml](backend/docs/openapi.yaml).
 
 Редактирование и удаление обязательств пока не реализованы в backend API и поэтому не показаны как доступные действия в интерфейсе.
+
+## GitHub Pages
+
+После push в `main` GitHub Actions соберёт frontend и опубликует его по адресу https://nastylauf.github.io/Pact-project/.
+
+Для первого запуска открой Settings → Pages и выбери GitHub Actions как источник публикации. Без переменной репозитория `VITE_API_URL` опубликованная версия доступна только для просмотра: для входа нужен публичный backend. Локальный `localhost:8080` с чужого устройства недоступен.

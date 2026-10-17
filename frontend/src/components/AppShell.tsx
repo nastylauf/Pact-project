@@ -46,7 +46,7 @@ export function AppShell({ user, pacts, onSignOut }: AppShellProps) {
             pact<span className="brand-dot">.</span>
           </span>
         </NavLink>
-        <div className="workspace-label">ТВОЁ ПРОСТРАНСТВО</div>
+        <div className="workspace-label">ОБЯЗАТЕЛЬСТВА</div>
         <nav className="side-nav" aria-label="Основная навигация">
           {navigation.map(({ to, label, icon: Icon, end }) => (
             <NavLink
@@ -70,8 +70,8 @@ export function AppShell({ user, pacts, onSignOut }: AppShellProps) {
           <div className="sidebar-prompt__icon">
             <Sparkles size={16} />
           </div>
-          <span className="sidebar-prompt__label">С чего начать?</span>
-          <p>Одно честное обещание лучше десяти идеальных планов.</p>
+          <span className="sidebar-prompt__label">Новое обещание</span>
+          <p>Добавь действие, которое хочешь выполнять регулярно.</p>
           <NavLink to="/pacts" className="sidebar-prompt__link">
             Записать обещание <ArrowUpRight size={14} />
           </NavLink>
@@ -131,7 +131,7 @@ export function AppShell({ user, pacts, onSignOut }: AppShellProps) {
             </span>
           </div>
           <div className="breadcrumb">
-            <span>Пространство</span>
+            <span>Pact</span>
             <span className="breadcrumb-slash">/</span>
             <strong>{pageTitle}</strong>
           </div>
@@ -173,9 +173,9 @@ export function AppShell({ user, pacts, onSignOut }: AppShellProps) {
         </main>
         <footer className="page-footer">
           <span>
-            PACT <i>·</i> держи слово себе
+            PACT <i>·</i> Обязательства
           </span>
-          <span>Пока только ты и твой следующий шаг.</span>
+          <span>Личные обязательства и отметки</span>
         </footer>
       </div>
 

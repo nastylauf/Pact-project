@@ -1,12 +1,5 @@
 import { useState, type FormEvent } from "react";
-import {
-  ArrowUpRight,
-  Check,
-  LockKeyhole,
-  Mail,
-  MoveRight,
-  Sparkles,
-} from "lucide-react";
+import { ArrowUpRight, LockKeyhole, Mail } from "lucide-react";
 import { motion } from "motion/react";
 import { authenticate, type User } from "../lib/api";
 
@@ -44,7 +37,7 @@ export function AuthPage({ onAuthenticated }: AuthPageProps) {
 
   return (
     <main className="auth-page">
-      <section className="auth-story" aria-label="О Pact">
+      <section className="auth-story" aria-label="Pact">
         <div className="brand brand--light">
           <span className="brand-mark">p</span>
           <span>
@@ -52,47 +45,32 @@ export function AuthPage({ onAuthenticated }: AuthPageProps) {
           </span>
         </div>
         <div className="auth-story__copy">
-          <div className="eyebrow eyebrow--light">
-            <Sparkles size={14} /> маленькие обещания, большие перемены
-          </div>
+          <div className="eyebrow eyebrow--light">ЛИЧНЫЕ ОБЯЗАТЕЛЬСТВА</div>
           <h1>
-            Слово себе
+            Личные
             <br />
-            <span>имеет вес.</span>
+            <span>обязательства.</span>
           </h1>
           <p>
-            Преврати намерение в обязательство. Отмечай каждый шаг и смотри, как
-            растёт твоя последовательность.
+            Ежедневные и еженедельные обещания с отметками выполнения.
           </p>
         </div>
         <div className="story-note">
           <div className="story-note__top">
-            <span className="live-dot" /> КАК РАБОТАЕТ PACT
-          </div>
-          <div className="story-streak">
-            <span className="streak-number">
-              <Check size={21} />
-            </span>
-            <span>
-              Один шаг за раз.
-              <br />В твоём собственном ритме.
-            </span>
-            <MoveRight size={20} />
+            <span className="live-dot" /> ТРИ ШАГА
           </div>
           <div className="story-week" aria-hidden="true">
-            {["Запиши обещание", "Отметь выполнение", "Продолжай"].map(
-              (step, index) => (
-                <span key={step}>
-                  <i>0{index + 1}</i>
-                  {step}
-                </span>
-              ),
-            )}
+            {["Создай", "Отмечай", "Смотри историю"].map((step, index) => (
+              <span key={step}>
+                <i>0{index + 1}</i>
+                {step}
+              </span>
+            ))}
           </div>
         </div>
         <div className="auth-story__footer">
-          <span>Личное обещание — личная сила.</span>
-          <span>PERSONAL SPACE</span>
+          <span>Обещания и отметки</span>
+          <span>PACT</span>
         </div>
         <span className="story-orbit story-orbit--one" />
         <span className="story-orbit story-orbit--two" />
@@ -113,13 +91,13 @@ export function AuthPage({ onAuthenticated }: AuthPageProps) {
           key={mode}
         >
           <div className="auth-card__eyebrow">
-            {mode === "login" ? "С возвращением" : "Начни с одного обещания"}
+            {mode === "login" ? "Вход" : "Регистрация"}
           </div>
           <h2>{mode === "login" ? "Войти в Pact" : "Создать аккаунт"}</h2>
           <p className="auth-card__intro">
             {mode === "login"
-              ? "Продолжи там, где остановился."
-              : "Пространство, чтобы держать слово себе."}
+              ? "Введи email и пароль."
+              : "Создай аккаунт, чтобы сохранять обещания."}
           </p>
 
           <form onSubmit={submit} className="form-stack">
@@ -198,16 +176,9 @@ export function AuthPage({ onAuthenticated }: AuthPageProps) {
               {mode === "login" ? "Создать аккаунт" : "Войти"}
             </button>
           </div>
-          <div className="auth-legal">
-            Продолжая, ты создаёшь личное пространство для своих обещаний.
-          </div>
         </motion.div>
         <div className="auth-footer">
-          <span>PACT / PERSONAL COMMITMENTS</span>
-          <span>
-            Сделано для последовательности{" "}
-            <span className="footer-spark">✳</span>
-          </span>
+          <span>PACT / ЛИЧНЫЕ ОБЯЗАТЕЛЬСТВА</span>
         </div>
       </section>
     </main>

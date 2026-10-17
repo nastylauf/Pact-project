@@ -91,10 +91,7 @@ export function PactsPage({
                 : "ЕЖЕНЕДЕЛЬНОЕ ОБЕЩАНИЕ"}
             </div>
             <h1>{selected.title}</h1>
-            <p>
-              {selected.description ||
-                "Ты создал это обещание для себя. Каждый выполненный шаг имеет значение."}
-            </p>
+            <p>{selected.description || "Описание не добавлено."}</p>
           </div>
           <CheckinButton
             checked={checked}
@@ -185,8 +182,8 @@ export function PactsPage({
     <>
       <PageHeading
         eyebrow="ТВОИ ОБЕЩАНИЯ"
-        title="Держи курс."
-        description="То, что ты пообещал себе. Без лишнего шума."
+        title="Мои обещания"
+        description="Ежедневные и еженедельные обязательства."
         action={
           <button
             type="button"
@@ -297,13 +294,11 @@ export function PactsPage({
           <div className="empty-mark">
             <Target size={22} />
           </div>
-          <h3>
-            {pacts.length ? "Ничего не найдено" : "Здесь начнётся твоя история"}
-          </h3>
+          <h3>{pacts.length ? "Ничего не найдено" : "Нет обещаний"}</h3>
           <p>
             {pacts.length
-              ? "Измени запрос или фильтр, чтобы увидеть обещания."
-              : "Запиши одно обещание и преврати намерение в действие."}
+              ? "Измени поиск или фильтр."
+              : "Добавь первое обещание."}
           </p>
           {!pacts.length && (
             <button
@@ -375,7 +370,7 @@ export function CheckinDialog({
         </span>
         <span>ОБЕЩАНИЕ ВЫПОЛНЕНО</span>
       </div>
-      <h2>Зафиксируй этот шаг.</h2>
+      <h2>Отметить выполнение</h2>
       <p className="modal-intro">{pact.title}</p>
       <form onSubmit={submit} className="form-stack">
         <label className="field">
@@ -386,7 +381,7 @@ export function CheckinDialog({
             value={note}
             onChange={(event) => setNote(event.target.value)}
             maxLength={2000}
-            placeholder="Что помогло тебе сегодня?"
+            placeholder="Заметка к отметке"
             rows={3}
           />
         </label>
@@ -462,10 +457,7 @@ function CreatePactDialog({
         </span>
         <span>НОВОЕ ОБЕЩАНИЕ</span>
       </div>
-      <h2>Что ты выбираешь делать?</h2>
-      <p className="modal-intro">
-        Сформулируй ясно. Это обещание — прежде всего тебе.
-      </p>
+      <h2>Новое обещание</h2>
       <form onSubmit={submit} className="form-stack">
         <label className="field">
           <span>Я обещаю себе</span>

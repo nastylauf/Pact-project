@@ -43,17 +43,6 @@ export function OverviewPage({
     day: "numeric",
     month: "long",
   }).format(now);
-  const greeting = new Intl.DateTimeFormat("ru-RU", { hour: "numeric" }).format(
-    now,
-  );
-  const hour = Number(greeting.replace(/\D/g, ""));
-  const salutation =
-    hour >= 5 && hour < 12
-      ? "Доброе утро"
-      : hour >= 12 && hour < 18
-        ? "Добрый день"
-        : "Добрый вечер";
-
   const lastSevenDays = useMemo(
     () =>
       Array.from({ length: 7 }, (_, index) => {
@@ -74,7 +63,7 @@ export function OverviewPage({
   if (loading && pacts.length === 0)
     return (
       <div className="loading-state">
-        <span className="spinner" /> Загружаем твой ритм…
+        <span className="spinner" /> Загрузка…
       </div>
     );
 
@@ -82,8 +71,8 @@ export function OverviewPage({
     <>
       <PageHeading
         eyebrow={today}
-        title={`${salutation}. Держи свой ритм.`}
-        description="Твой путь складывается из обещаний, которые ты выполняешь."
+        title="Обзор"
+        description="Активные обещания и отметки."
         action={
           <NavLink
             to="/pacts"
@@ -98,12 +87,12 @@ export function OverviewPage({
       <section className="stats-grid" aria-label="Текущие показатели">
         <article className="stat-tile stat-tile--ink">
           <div className="stat-tile__top">
-            <span>Активные обещания</span>
+            <span>Активные</span>
             <Target size={17} />
           </div>
           <strong>{activePacts.length.toString().padStart(2, "0")}</strong>
           <div className="stat-tile__foot">
-            <span className="stat-tile__dot" /> твой фокус сейчас
+            <span className="stat-tile__dot" /> Обещания в работе
           </div>
         </article>
         <article className="stat-tile stat-tile--lime">
@@ -112,7 +101,7 @@ export function OverviewPage({
             <Zap size={17} />
           </div>
           <strong>{todayCount.toString().padStart(2, "0")}</strong>
-          <div className="stat-tile__foot">один шаг за раз</div>
+          <div className="stat-tile__foot">За сегодня</div>
         </article>
         <article className="stat-tile stat-tile--paper">
           <div className="stat-tile__top">
@@ -126,7 +115,7 @@ export function OverviewPage({
             </small>
           </strong>
           <div className="stat-tile__foot">
-            <Trophy size={13} /> твой личный рекорд
+            <Trophy size={13} /> По сериям обещаний
           </div>
         </article>
       </section>
@@ -136,7 +125,7 @@ export function OverviewPage({
           <div className="section-heading">
             <div>
               <div className="eyebrow">ДЕНЬ ЗА ДНЁМ</div>
-              <h2>Твой фокус</h2>
+              <h2>Активные обещания</h2>
             </div>
             <Link to="/pacts" className="text-link">
               Все обещания <ArrowRight size={15} />
@@ -147,15 +136,11 @@ export function OverviewPage({
               <div className="empty-mark">
                 <Target size={22} />
               </div>
-              <h3>
-                {pacts.length
-                  ? "Сейчас нет активных обещаний"
-                  : "Пока здесь тихо"}
-              </h3>
+              <h3>{pacts.length ? "Нет активных обещаний" : "Нет обещаний"}</h3>
               <p>
                 {pacts.length
-                  ? "Создай новое обещание, чтобы продолжить свой ритм."
-                  : "Начни с одного обещания, которое действительно важно тебе."}
+                  ? "Создай новое обещание."
+                  : "Добавь первое обещание."}
               </p>
               <Link to="/pacts" className="button button--primary">
                 <Plus size={16} /> Создать обещание
@@ -181,7 +166,7 @@ export function OverviewPage({
                         <i />
                         {pact.current_streak > 0
                           ? `${pact.current_streak} ${pact.frequency === "daily" ? "дн." : "нед."} подряд`
-                          : "Начни серию сегодня"}
+                          : "Нет отметок за период"}
                       </span>
                     </div>
                     <CheckinButton
@@ -205,13 +190,13 @@ export function OverviewPage({
           <div className="section-heading">
             <div>
               <div className="eyebrow">ПОСЛЕДНИЕ 7 ДНЕЙ</div>
-              <h2>Твой ритм</h2>
+              <h2>Отметки</h2>
             </div>
             <span className="rhythm-icon">
               <Flame size={18} />
             </span>
           </div>
-          <p className="rhythm-caption">Отметки, которые ты уже сделал.</p>
+          <p className="rhythm-caption">За последние 7 дней</p>
           <div
             className="week-chart"
             aria-label="Отметки за последние семь дней"
@@ -242,10 +227,6 @@ export function OverviewPage({
             <span>отметок за неделю</span>
             <ArrowUpRight size={16} />
           </div>
-          <div className="rhythm-note">
-            <span className="rhythm-note__spark">✳</span>
-            <span>Последовательность важнее идеального темпа.</span>
-          </div>
         </aside>
       </div>
 
@@ -253,7 +234,7 @@ export function OverviewPage({
         <div className="section-heading">
           <div>
             <div className="eyebrow">ИЗМЕНЕНИЯ</div>
-            <h2>Недавно обновлены</h2>
+            <h2>Последние изменения</h2>
           </div>
           <Link to="/history" className="text-link">
             История отметок <ArrowRight size={15} />
@@ -294,7 +275,7 @@ export function OverviewPage({
           </div>
         ) : (
           <p className="muted-empty">
-            Твои обещания появятся здесь после создания.
+            Здесь будут последние изменения обещаний.
           </p>
         )}
       </section>

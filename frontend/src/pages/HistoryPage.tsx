@@ -49,9 +49,9 @@ export function HistoryPage({
   return (
     <>
       <PageHeading
-        eyebrow="ПОСЛЕДОВАТЕЛЬНОСТЬ"
-        title="Каждый шаг засчитан."
-        description="Твои отметки — история того, как ты держишь слово себе."
+        eyebrow="ИСТОРИЯ"
+        title="История отметок"
+        description="Выполнения по датам."
       />
       <div className="history-summary">
         <span className="history-summary__icon">
@@ -146,15 +146,11 @@ export function HistoryPage({
           <div className="empty-mark">
             <History size={22} />
           </div>
-          <h3>
-            {checkins.length
-              ? "Подходящих отметок нет"
-              : "История начинается с первого шага"}
-          </h3>
+          <h3>{checkins.length ? "Подходящих отметок нет" : "Нет отметок"}</h3>
           <p>
             {checkins.length
               ? "Попробуй изменить поиск или фильтр."
-              : "Открой обещание и зафиксируй, что выполнил его сегодня."}
+              : "Отметки появятся здесь после выполнения обещания."}
           </p>
           {!checkins.length && (
             <Link to="/pacts" className="text-link">
