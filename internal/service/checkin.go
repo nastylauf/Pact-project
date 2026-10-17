@@ -83,6 +83,17 @@ func (s *CheckinService) Create(
 	return created, nil
 }
 
+func (s *CheckinService) GetByPactID(ctx context.Context, userID, pactID string) ([]domain.Checkin, error) {
+	pact, err := s.pacts.GetByID(ctx, pactID)
+	if err != nil {
+		return nil, err
+	}
+	if pact.UserID != userID {
+		return nil, domain.ErrForbidden
+	}
+	return s.checkins.GetByPactID(ctx, pactID)
+}
+
 func calculateStreak(frequency domain.Frequency, checkins []domain.Checkin) (int, int) {
 	if len(checkins) == 0 {
 		return 0, 0
