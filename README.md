@@ -83,5 +83,4 @@ go run ./cmd/api
 - `internal/handler` – HTTP-обработчики
 - `internal/middleware` – авторизация, логирование, recovery и CORS
 - `internal/auth` – JWT и хеширование паролей
-- `migrations` – схема базы данных
-- `docs` – OpenAPI-описание
+- `migrations` – схема базы данных (пока базовые миграции)
