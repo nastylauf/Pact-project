@@ -10,6 +10,7 @@ security:
 paths:
   /healthz:
     get:
+      operationId: healthCheck
       security: []
       summary: Check API liveness
       responses:
@@ -25,6 +26,7 @@ paths:
                     example: ok
   /api/v1/auth/register:
     post:
+      operationId: registerUser
       security: []
       summary: Register a user
       requestBody:
@@ -46,6 +48,7 @@ paths:
           $ref: "#/components/responses/Conflict"
   /api/v1/auth/login:
     post:
+      operationId: loginUser
       security: []
       summary: Sign in
       requestBody:
@@ -67,6 +70,7 @@ paths:
           $ref: "#/components/responses/Unauthorized"
   /api/v1/pacts:
     get:
+      operationId: listPacts
       summary: List the current user's pacts
       responses:
         "200":
@@ -80,6 +84,7 @@ paths:
         "401":
           $ref: "#/components/responses/Unauthorized"
     post:
+      operationId: createPact
       summary: Create a pact
       requestBody:
         required: true
@@ -102,6 +107,7 @@ paths:
     parameters:
       - $ref: "#/components/parameters/PactID"
     get:
+      operationId: getPact
       summary: Get an owned pact
       responses:
         "200":
@@ -120,6 +126,7 @@ paths:
     parameters:
       - $ref: "#/components/parameters/PactID"
     get:
+      operationId: listCheckins
       summary: List check-ins for an owned pact
       responses:
         "200":
@@ -137,6 +144,7 @@ paths:
         "404":
           $ref: "#/components/responses/NotFound"
     post:
+      operationId: createCheckin
       summary: Record a check-in
       requestBody:
         required: true
