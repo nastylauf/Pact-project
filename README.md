@@ -1,68 +1,87 @@
-# Pact API
+# Pact
 
-REST API for personal commitments, check-ins, and streak tracking. The code is split into domain, repository, service, handler, middleware, and auth packages under `internal/`.
+**Pact помогает держать слово самому себе.** Создай обязательство, отмечай прогресс и строй привычки не только на силе воли, но и на ответственности за собственное обещание.
 
-## Requirements
+Например: писать код по часу в день, не открывать Instagram до 18:00 или закончить пет-проект за 30 дней. Pact превращает цель в понятный план действий и показывает, как ты продвигаешься.
 
-- Go 1.25 or Docker Desktop with Docker Compose
-- PostgreSQL is started by Compose
+## Идея проекта
 
-## Configuration
+Pact – это сервис личных обязательств и accountability. Это не просто список задач или очередной трекер привычек: в центре продукта обещание, которое человек решил выполнить, и ответственность за его выполнение.
 
-Copy `.env.example` to `.env` if you do not already have a local `.env`:
+В дальнейшем обязательство можно будет сделать публичным или приватным, пригласить друзей-свидетелей или партнёров по ответственности и заранее выбрать последствия срыва. Это могут быть публикация о невыполненном обещании, неприятное действие или потеря очков репутации. Денежные ставки не входят в стартовую концепцию.
+
+## Что уже работает
+
+- Регистрация и вход в аккаунт
+- Создание личных обязательств с ежедневной или еженедельной частотой
+- Даты начала и завершения обязательства
+- Отметки о выполнении с заметками и историей прогресса
+- Текущий и максимальный стрик
+- Проверка доступа: пользователь видит только свои обязательства и отметки
+
+Это основа продукта. Публичность, свидетели, группы, ставки, репутация и отчёты пока находятся в планах и ещё не доступны в текущей версии.
+
+## Куда развивается Pact
+
+1. **Ответственность вместе.** Публичные и приватные обязательства, приглашение свидетелей и партнёров.
+2. **Последствия и репутация.** Неденежные ставки, выбранные самим пользователем, и система очков репутации.
+3. **Отчёты и аналитика.** История выполнения, закономерности и прогресс за период.
+4. **Команды и сообщества.** Поддержка небольших групп и совместных обязательств.
+5. **Расширенные возможности.** Интеграции с календарём, аналитика и дополнительные инструменты для тех, кому их будет недостаточно в бесплатной версии.
+
+Базовые личные обязательства задуманы бесплатными. Возможные платные функции – расширенная статистика, интеграции и дополнительные возможности для групп – это направление развития, а не уже доступная подписка.
+
+## Запуск проекта
+
+Нужны Go 1.25 или Docker Desktop с Docker Compose. Скопируй пример настроек, если локального `.env` ещё нет:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Set `JWT_SECRET` to a private random value of at least 32 bytes. For example, generate one in PowerShell with:
+Установи в `.env` случайный `JWT_SECRET` длиной не менее 32 байт. Его можно сгенерировать в Windows PowerShell 5.1:
 
 ```powershell
-[Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+$bytes = New-Object byte[] 32
+$rng = [Security.Cryptography.RandomNumberGenerator]::Create()
+$rng.GetBytes($bytes)
+[Convert]::ToBase64String($bytes)
 ```
 
-Do not commit `.env`; it is excluded by `.gitignore`.
+Скопируй выведенное значение в `JWT_SECRET`. Не публикуй его и не добавляй `.env` в Git: файл уже исключён из истории.
 
-## Run with Docker Compose
+Запусти приложение:
 
 ```powershell
 docker compose up --build
 ```
 
-Compose starts PostgreSQL, applies pending migrations, then starts the API at `http://localhost:8080`. PostgreSQL is published on `localhost:5433` to avoid conflicting with a local PostgreSQL installation on port 5432.
+Compose запустит PostgreSQL, применит миграции и поднимет сервис на `http://localhost:8080`. PostgreSQL доступен на порту `5433`, чтобы не конфликтовать с локальной установкой на `5432`.
 
-To stop the services without deleting the database volume:
+Остановить сервисы, сохранив данные базы:
 
 ```powershell
 docker compose down
 ```
 
-## Run the API locally
-
-Start PostgreSQL with `docker compose up -d postgres`, apply migrations, then run:
+Для локального запуска Go-приложения сначала подними базу и примени миграции:
 
 ```powershell
-$env:DATABASE_URL = "postgres://pact:pact@localhost:5433/pact?sslmode=disable"
+docker compose up -d postgres
+docker compose run --rm migrate
 go run ./cmd/api
 ```
 
-The application reads `.env` automatically. Set `DATABASE_URL` as shown if the value in `.env` points somewhere else.
+Приложение загружает настройки из `.env`. OpenAPI-описание для просмотра в Swagger UI находится в [`docs/openapi.yaml`](docs/openapi.yaml).
 
-## HTTP API
+## Структура кода
 
-| Method | Path                          | Authentication | Purpose                          |
-|--------|-------------------------------|----------------|----------------------------------|
-| `GET`  | `/healthz`                    | No             | Liveness check                   |
-| `POST` | `/api/v1/auth/register`       | No             | Create an account                |
-| `POST` | `/api/v1/auth/login`          | No             | Sign in and get a bearer token   |
-| `GET`  | `/api/v1/pacts`               | Bearer token   | List the current user's pacts    |
-| `POST` | `/api/v1/pacts`               | Bearer token   | Create a pact                    |
-| `GET`  | `/api/v1/pacts/{id}`          | Bearer token   | Get one owned pact               |
-| `POST` | `/api/v1/pacts/{id}/checkins` | Bearer token   | Record a check-in                |
-| `GET`  | `/api/v1/pacts/{id}/checkins` | Bearer token   | List check-ins for an owned pact |
-
-Register with JSON such as `{"email":"person@example.com","password":"at-least-8-chars","name":"Alex"}`. Use the returned `access_token` as `Authorization: Bearer <token>` for protected routes.
-
-Create a pact with `title`, `frequency` (`daily` or `weekly`), and optional `description`, `start_date`, and `end_date` (`YYYY-MM-DD`). A check-in accepts optional `date` (`YYYY-MM-DD`) and `note`; omitted dates default to today. Daily pacts allow one check-in per date, weekly pacts one per Monday-based calendar week. Streak counters update when a check-in succeeds.
-
-The OpenAPI 3.1 document is in [`docs/openapi.yaml`](docs/openapi.yaml) and can be imported into Swagger UI.
+- `cmd/api` – сборка зависимостей и запуск сервера
+- `internal/domain` – сущности и бизнес-ошибки
+- `internal/repository` – PostgreSQL-хранилище
+- `internal/service` – правила обязательств и расчёт стриков
+- `internal/handler` – HTTP-обработчики
+- `internal/middleware` – авторизация, логирование, recovery и CORS
+- `internal/auth` – JWT и хеширование паролей
+- `migrations` – схема базы данных
+- `docs` – OpenAPI-описание
