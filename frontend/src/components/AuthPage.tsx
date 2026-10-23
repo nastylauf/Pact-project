@@ -51,9 +51,7 @@ export function AuthPage({ onAuthenticated }: AuthPageProps) {
             <br />
             <span>обязательства.</span>
           </h1>
-          <p>
-            Ежедневные и еженедельные обещания с отметками выполнения.
-          </p>
+          <p>Ежедневные и еженедельные обещания с отметками выполнения.</p>
         </div>
         <div className="story-note">
           <div className="story-note__top">
